@@ -6,7 +6,15 @@ dotenv.config({ path: "./.env" });
 connectToMongo();
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Allow only this origin
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+    credentials: true, // If you're sending cookies or HTTP auth information
+  })
+);
+// app.use(cors());
 app.use(express.json());
 
 //Port No.

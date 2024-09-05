@@ -21,12 +21,39 @@ const Login = ({ loadUser, onRouteChange }) => {
     navigate("/");
   };
   const onSubmitLogIn = async () => {
+    // try {
+    //   const response = await fetch(`${BASE_URL}/api/auth/login`, {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ email: signInEmail, password: signInPassword }),
+    //   });
+    //   const json = await response.json();
+    //   console.log(json);
+    //   if (json.success) {
+    //     localStorage.setItem("token", json.authtoken);
+    //     localStorage.setItem("role", json.role);
+    //     handleClick();
+    //   } else {
+    //     Swal.fire({
+    //       icon: "warning",
+    //       title: "Invalid Credentials",
+    //       text: "",
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.log(error.message);
+    // }
     try {
       const response = await fetch(`${BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: signInEmail, password: signInPassword }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const json = await response.json();
       console.log(json);
       if (json.success) {
@@ -41,7 +68,7 @@ const Login = ({ loadUser, onRouteChange }) => {
         });
       }
     } catch (error) {
-      console.log(error.message);
+      console.error("Failed to fetch:", error.message);
     }
   };
 
